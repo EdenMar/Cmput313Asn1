@@ -10,3 +10,9 @@ else:
 	block will need retransmission
 
 each transmission is worth A time units. 
+
+
+asumptions:
+	All Seeds are ints
+	All args are ints or doubles
+	incorrect number of args should cause program to terminate with error message

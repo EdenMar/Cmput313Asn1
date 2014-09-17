@@ -8,16 +8,15 @@ F = 4000 # Size of frame in bits. assume 4000 bits
 e = None # probability that a bit is an error
 R = None # Lenght of simulation in bit time units (derived using A)
 T = 5 #
-
+Seeds = list()
 
 #	Functions
 def main():
 	# Handle Arguments
-	checkArgs()
 	handleArgs()
 	printVals()
 
-# Check for bad arguments
+
 def checkArgs():
 	if len(sys.argv) < 7:
 		print("Not enough args")
@@ -25,15 +24,59 @@ def checkArgs():
 
 #handle arguments
 def handleArgs():
-	A = sys.argv[1]
-	K = sys.argv[2]
-	F = sys.argv[3]
-	e = sys.argv[4]
-	R = sys.argv[5]
-	T = sys.argv[6]
+	global A
+	global K
+	global F
+	global e
+	global R
+	global T
+	global Seeds
+
+	# try to take in arguments, also checks right number of args are provided
+	try: 
+		A = int(sys.argv[1])
+		K = int(sys.argv[2])
+		F = int(sys.argv[3])
+		e = float(sys.argv[4])
+		R = int(sys.argv[5])
+		T = int(sys.argv[6])
+	except:
+		print("Bad arguments, please input numbers for all arguments")
+		exit()
+
+	# Checks that right number of seeds are provided
+	if len(sys.argv) < (7 + T):
+		print("not enough seeds")
+		exit()
+	if len(sys.argv) > (7 + T):
+		print("too many seeds")
+		exit()
+
+	# Store Seeds as ints
+	for i in range(7,(6+T)):
+		try:
+			Seeds.append(int(sys.argv[i]))
+		except:
+			print("Please ensure all seeds or integers")		
 
 # Print Values out
 def printVals():
-	print(A, K, F, e, R, T, "Plus Seeds go here!")
+	printString = str(A) + " " + str(K) + " " + str(F) + " " + str(e) + " " + str(R) + " " + str(T)
+
+	#append seeds to printString
+	for i in Seeds:
+		printString = printString + " " + str(i)
+
+	print(printString)
+	#print(A, K, F, e, R, T, Seeds)
+
 
 main()
+
+
+
+
+
+#asumptions
+	# All Seeds are ints
+	# All args are ints or doubles
