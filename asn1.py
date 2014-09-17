@@ -49,7 +49,7 @@ def handleArgs():
 		exit()
 
 	# Store Seeds as ints
-	for i in range(7,(6+T)):
+	for i in range(7,(7+T)):
 		try:
 			Seeds.append(int(sys.argv[i]))
 		except:
