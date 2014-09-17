@@ -97,9 +97,3 @@ def isFrameGood():
 main()
 
 
-
-
-
-#asumptions
-	# All Seeds are ints
-	# All args are ints or doubles
