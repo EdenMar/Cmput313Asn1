@@ -86,13 +86,28 @@ def getFrame():
 def isFrameGood():
 	global K
 	global F
-	blocks = int(F/K)
+	blocks = K
+	blockSize = int(F/K)
 	
-	#for each block
+	#for each block            # is this accurate??
 	for i in range(blocks):
-		return
-
+		badBits = 0
+		#for each bit
+		for j in range(blockSize):
+			if badBit():
+				badBits += 1
+		if badBits > 1:
+			return False
+			
 	return True
+
+# determines if a bit is bad or not
+# returns true if bit is bad
+def badBits():
+	global e
+	return False
+
+
 
 main()
 
