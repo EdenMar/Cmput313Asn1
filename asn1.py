@@ -34,6 +34,6 @@ def handleArgs():
 
 # Print Values out
 def printVals():
-	print("A=", A, "K=", K, "F=", F, "e=", e, "R=", R, "T=", T)
+	print(A, K, F, e, R, T, "Plus Seeds go here!")
 
 main()
