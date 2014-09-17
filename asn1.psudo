@@ -1,2 +1,12 @@
 Dont need to generate actual messages, or implement actual bit corrections. Simply dealing with number of bits.
 
+
+
+Given F, divide into K equal blocks
+each block has num errors comutered and r bits added on for HSBC.
+if 0 or 1 bit error:
+	 block will be good
+else:
+	block will need retransmission
+
+each transmission is worth A time units. 
