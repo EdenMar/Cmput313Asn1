@@ -37,15 +37,15 @@ def handleArgs():
 		R = int(sys.argv[5])
 		T = int(sys.argv[6])
 	except:
-		print("Bad arguments, please input numbers for all arguments")
+		print("[X] Bad arguments: Please input numbers for all arguments")
 		exit()
 
 	# Checks that right number of seeds are provided
 	if len(sys.argv) < (7 + T):
-		print("not enough seeds")
+		print("[X] Bad Arguments: Not enough seeds")
 		exit()
 	if len(sys.argv) > (7 + T):
-		print("too many seeds")
+		print("[X] Bad Arguments: Too many seeds")
 		exit()
 
 	# Store Seeds as ints
@@ -53,7 +53,12 @@ def handleArgs():
 		try:
 			Seeds.append(int(sys.argv[i]))
 		except:
-			print("Please ensure all seeds or integers")		
+			print("[X] Bad Arguments: Please ensure all seeds or integers")
+
+	# Check if K evenly divides F
+	if F%K != 0:
+		print("[X] Bad Arguments: Please ensure that K evenly divides F")
+		exit()		
 
 # Print Values out
 def printVals():
@@ -66,20 +71,29 @@ def printVals():
 	print(printString)
 	#print(A, K, F, e, R, T, Seeds)
 
-def isFrameGood():
-	return True
-
 # get the next good frame
 def getFrame():
 	if isFrameGood():
 		# we got the frame
+		# also increment A or whatever
 		return 
 	else:
-		#retrnsmit frame\
+		#retransmit frame
+		# also increment A or whatever
 		return
 
-def isFrameGodd():
+# Check if a randomly generated frame passes test
+def isFrameGood():
+	global K
+	global F
+	blocks = int(F/K)
+	
+	#for each block
+	for i in range(blocks):
+		return
+
 	return True
+
 main()
 
 
