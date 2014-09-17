@@ -98,7 +98,7 @@ def isFrameGood():
 				badBits += 1
 		if badBits > 1:
 			return False
-			
+
 	return True
 
 # determines if a bit is bad or not
@@ -106,7 +106,6 @@ def isFrameGood():
 def badBits():
 	global e
 	return False
-
 
 
 main()
