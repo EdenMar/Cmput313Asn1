@@ -15,12 +15,8 @@ def main():
 	# Handle Arguments
 	handleArgs()
 	printVals()
+	getFrame()
 
-
-def checkArgs():
-	if len(sys.argv) < 7:
-		print("Not enough args")
-		exit()
 
 #handle arguments
 def handleArgs():
@@ -70,7 +66,20 @@ def printVals():
 	print(printString)
 	#print(A, K, F, e, R, T, Seeds)
 
+def isFrameGood():
+	return True
 
+# get the next good frame
+def getFrame():
+	if isFrameGood():
+		# we got the frame
+		return 
+	else:
+		#retrnsmit frame\
+		return
+
+def isFrameGodd():
+	return True
 main()
 
 
