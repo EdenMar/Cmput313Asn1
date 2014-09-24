@@ -87,9 +87,9 @@ def isFrameGood():
 	global K
 	global F
 	blocks = K
-	blockSize = int(F/K)
+	blockSize = int(F/K) # 						# do we need to add r here??
 	
-	#for each block            # is this accurate??
+	#for each block            					# is this accurate??
 	for i in range(blocks):
 		badBits = 0
 		#for each bit
