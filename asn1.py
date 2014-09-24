@@ -1,5 +1,6 @@
-#!/usr/bin/python3
+#! /usr/bin/python3
 import sys
+import random
 
 # Supplied Vals
 A = 500 #feedback time is assumed at 500 bit time units
@@ -7,16 +8,30 @@ K = None # number of blocks, chosen such that F is a muliple of K
 F = 4000 # Size of frame in bits. assume 4000 bits
 e = None # probability that a bit is an error
 R = None # Lenght of simulation in bit time units (derived using A)
-T = 5 #
+T = 5 # The number of frames being transmitted. each with it's own seed
 Seeds = list()
+
+countTimeUnits = 0
+retransmittedFrames = 0
+correctlyRecievedFrames = 0
 
 #	Functions
 def main():
 	# Handle Arguments
 	handleArgs()
 	printVals()
-	getFrame()
 
+	# run code T times with different seeds
+	for i in range(T):
+		getFrame(Seeds[i])
+		if countTimeUnits >= R:
+			print("Time Limit Reached")
+			break
+
+	print("The average number of transmissions was: ", computeAverageTransmission())
+	print("The throughput was ", computeThroughput())
+
+	return
 
 #handle arguments
 def handleArgs():
@@ -27,6 +42,7 @@ def handleArgs():
 	global R
 	global T
 	global Seeds
+
 
 	# try to take in arguments, also checks right number of args are provided
 	try: 
@@ -56,9 +72,10 @@ def handleArgs():
 			print("[X] Bad Arguments: Please ensure all seeds or integers")
 
 	# Check if K evenly divides F
-	if F%K != 0:
-		print("[X] Bad Arguments: Please ensure that K evenly divides F")
-		exit()		
+	if K != 0:
+		if F%K != 0:
+			print("[X] Bad Arguments: Please ensure that K evenly divides F")
+			exit()		
 
 # Print Values out
 def printVals():
@@ -72,24 +89,56 @@ def printVals():
 	#print(A, K, F, e, R, T, Seeds)
 
 # get the next good frame
-def getFrame():
-	if isFrameGood():
-		# we got the frame
-		# also increment A or whatever
-		return 
-	else:
-		#retransmit frame
-		# also increment A or whatever
+def getFrame(seed):
+	global A
+	global R
+	global K
+	global countTimeUnits
+	global correctlyRecievedFrames
+	global retransmittedFrames
+
+	random.seed(seed)
+	gotFrame = False
+
+	if (K == 0):
+		while (not gotFrame):
+			countTimeUnits += (A+A)
+			if (countTimeUnits >= R):
+				break
+
+			if isFrameGoodKequals0():
+				gotFrame = True
+				correctlyRecievedFrames += 1
+				print("============= Got a good frame =============")
+			else:
+				retransmittedFrames += 1
+				print("Bad Frame, Retransmitting.....")
 		return
+
+	while (not gotFrame):
+		countTimeUnits += (A+A)
+		if (countTimeUnits >= R):
+			break
+
+		if isFrameGood():
+			gotFrame = True
+			correctlyRecievedFrames += 1
+			print("============= Got a good frame =============")
+		else:
+			retransmittedFrames += 1
+			print("Bad Frame, Retransmitting.....")
+	return 
+
+
 
 # Check if a randomly generated frame passes test
 def isFrameGood():
 	global K
 	global F
 	blocks = K
-	blockSize = int(F/K) # 						# do we need to add r here??
+	blockSize = int(F/K) # 						# we need to add r here!
 	
-	#for each block            					# is this accurate??
+	#for each block
 	for i in range(blocks):
 		badBits = 0
 		#for each bit
@@ -101,12 +150,52 @@ def isFrameGood():
 
 	return True
 
+def isFrameGoodKequals0():
+	global K
+	global F
+	blocks = 1
+	blockSize = int(F) 
+	
+	#for each block
+	for i in range(blocks):
+		badBits = 0
+		#for each bit
+		for j in range(blockSize):
+			if badBit():
+				badBits += 1
+		if badBits > 0:
+			return False
+	return True
+
 # determines if a bit is bad or not
 # returns true if bit is bad
-def badBits():
+def badBit():
 	global e
-	return False
+	randomInt = random.random()
+	if randomInt <= e:
+		return True # bit is bad
+	else:
+		return False
 
+# compute the average number of transmisisons per good frame
+def computeAverageTransmission():
+	global correctlyRecievedFrames
+	global retransmittedFrames
+	if correctlyRecievedFrames != 0:
+		average = ((correctlyRecievedFrames + retransmittedFrames) / correctlyRecievedFrames)
+	else:
+		average = 0	
+	return average
+
+def computeThroughput():
+	global F
+	global correctlyRecievedFrames
+	global countTimeUnits
+
+	if correctlyRecievedFrames == 0:
+		return 0
+
+	return ((F * correctlyRecievedFrames) / countTimeUnits)
 
 main()
 
