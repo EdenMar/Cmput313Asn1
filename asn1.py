@@ -10,7 +10,7 @@ e = None # probability that a bit is an error
 R = None # Lenght of simulation in bit time units (derived using A)
 T = 5 # The number of frames being transmitted. each with it's own seed
 Seeds = list()
-
+transmittedPerSeed = []
 countTimeUnits = 0
 retransmittedFrames = 0
 correctlyRecievedFrames = 0
@@ -28,9 +28,9 @@ def main():
 			print("Time Limit Reached")
 			break
 
-	print(computeAverageTransmission(), " (Confidence, Interval) ")
+	print("%.2f, %.2f %.2f" %computeAverageTransmission(), " (Confidence, Interval) ")
 	#print("The average number of transmissions was: ", computeAverageTransmission())
-	#print("The throughput was ", computeThroughput())
+	print("The throughput was ", computeThroughput())
 
 	return
 
@@ -98,7 +98,9 @@ def getFrame(seed):
 	global countTimeUnits
 	global correctlyRecievedFrames
 	global retransmittedFrames
+	global transmittedPerSeed
 
+	transmittedFrames = 0
 	random.seed(seed)
 	gotFrame = False
 
@@ -111,10 +113,14 @@ def getFrame(seed):
 			if isFrameGoodKequals0():
 				gotFrame = True
 				correctlyRecievedFrames += 1
+				transmittedFrames += 1
 				#print("============= Got a good frame =============")
 			else:
 				retransmittedFrames += 1
+				transmittedFrames += 1
 				#print("Bad Frame, Retransmitting.....")
+
+		transmittedPerSeed.append(transmittedFrames)
 		return
 
 	while (not gotFrame):
@@ -125,10 +131,14 @@ def getFrame(seed):
 		if isFrameGood():
 			gotFrame = True
 			correctlyRecievedFrames += 1
+			transmittedFrames += 1
 			#print("============= Got a good frame =============")
 		else:
 			retransmittedFrames += 1
+			transmittedFrames += 1
 			#print("Bad Frame, Retransmitting.....")
+
+	transmittedPerSeed.append(transmittedFrames)
 	return 
 
 
@@ -186,11 +196,22 @@ def badBit():
 def computeAverageTransmission():
 	global correctlyRecievedFrames
 	global retransmittedFrames
+	global transmittedPerSeed
+	global T
 	if correctlyRecievedFrames != 0:
 		average = ((correctlyRecievedFrames + retransmittedFrames) / correctlyRecievedFrames)
+		summation = 0
+		for element in transmittedPerSeed:
+			i = ((element-average)**2)
+			summation = summation + i
+				
+		stdDev = (summation/(T-1))**0.5
+		step = 2.776 * (stdDev/(T**0.5))
+		lower = average - step
+		upper = average + step
 	else:
 		average = 0	
-	return average
+	return average, lower, upper
 
 def computeThroughput():
 	global F
@@ -200,7 +221,8 @@ def computeThroughput():
 	if correctlyRecievedFrames == 0:
 		return 0
 
-	return ((F * correctlyRecievedFrames) / countTimeUnits)
+	else:	
+		return ((F * correctlyRecievedFrames) / countTimeUnits)
 
 # Returns number of HSBC check bits for supplied block size
 def getCheckBits(blockSize):

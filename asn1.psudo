@@ -23,3 +23,5 @@ asumptions:
 
 	how does confidence interval stuff work when we run out of time?
 	Also how do we handle K = 0
+
+	Assume that xi for the calculation of the Std Dev is the sum of good+bad frames
