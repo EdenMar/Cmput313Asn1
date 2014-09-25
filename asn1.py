@@ -28,8 +28,9 @@ def main():
 			print("Time Limit Reached")
 			break
 
-	print("The average number of transmissions was: ", computeAverageTransmission())
-	print("The throughput was ", computeThroughput())
+	print(computeAverageTransmission(), " (Confidence, Interval) ")
+	#print("The average number of transmissions was: ", computeAverageTransmission())
+	#print("The throughput was ", computeThroughput())
 
 	return
 
@@ -93,6 +94,7 @@ def getFrame(seed):
 	global A
 	global R
 	global K
+	global F
 	global countTimeUnits
 	global correctlyRecievedFrames
 	global retransmittedFrames
@@ -109,10 +111,10 @@ def getFrame(seed):
 			if isFrameGoodKequals0():
 				gotFrame = True
 				correctlyRecievedFrames += 1
-				print("============= Got a good frame =============")
+				#print("============= Got a good frame =============")
 			else:
 				retransmittedFrames += 1
-				print("Bad Frame, Retransmitting.....")
+				#print("Bad Frame, Retransmitting.....")
 		return
 
 	while (not gotFrame):
@@ -123,10 +125,10 @@ def getFrame(seed):
 		if isFrameGood():
 			gotFrame = True
 			correctlyRecievedFrames += 1
-			print("============= Got a good frame =============")
+			#print("============= Got a good frame =============")
 		else:
 			retransmittedFrames += 1
-			print("Bad Frame, Retransmitting.....")
+			#print("Bad Frame, Retransmitting.....")
 	return 
 
 
