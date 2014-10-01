@@ -100,7 +100,13 @@ def getFrame(seed):
 	global correctlyRecievedFrames
 	global retransmittedFrames
 	global transmittedPerSeed
+<<<<<<< HEAD
 	global throughputPerSeed
+=======
+
+	r = getCheckBits(int(F/K))
+	global timeUnitsPerSeed
+>>>>>>> 5343affbbf80324696aef5d2e28b2a8038b38617
 
 	seedTime = 0
 	transmittedFrames = 0
@@ -109,6 +115,7 @@ def getFrame(seed):
 
 	if (K == 0):
 		while (not gotFrame):
+			countTimeUnits += ((F/K) + A + r)
 			seedTime += (A+A)
 			countTimeUnits += (A+A)
 			if (countTimeUnits >= R):
@@ -129,6 +136,7 @@ def getFrame(seed):
 		return
 
 	while (not gotFrame):
+		countTimeUnits += ((F/K) + A + r)
 		seedTime += (A+A)
 		countTimeUnits += (A+A)
 		if (countTimeUnits >= R):
