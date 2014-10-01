@@ -28,7 +28,6 @@ def main():
 		while(countTimeUnits < R):
 			getFrame(Seeds[i])
 			if countTimeUnits >= R:
-				print("Time Limit Reached")
 				break
 		countTimeUnits = 0;
 
@@ -103,13 +102,14 @@ def getFrame(seed):
 	global correctlyRecievedFrames
 	global retransmittedFrames
 	global transmittedPerSeed
-<<<<<<< HEAD
 	global throughputPerSeed
-=======
 
-	r = getCheckBits(int(F/K))
+	if(K != 0):
+		r = getCheckBits(int(F/K))
+	else:
+		r = 0
+
 	global timeUnitsPerSeed
->>>>>>> 5343affbbf80324696aef5d2e28b2a8038b38617
 
 	seedTime = 0
 	transmittedFrames = 0
@@ -118,9 +118,9 @@ def getFrame(seed):
 
 	if (K == 0):
 		while (not gotFrame):
-			countTimeUnits += ((F/K) + A + r)
-			seedTime += (A+A)
-			countTimeUnits += (A+A)
+			countTimeUnits += ((F) + A)
+			seedTime += (F+A)
+			countTimeUnits += (F+A)
 			if (countTimeUnits >= R):
 				break
 
@@ -140,8 +140,8 @@ def getFrame(seed):
 
 	while (not gotFrame):
 		countTimeUnits += ((F/K) + A + r)
-		seedTime += (A+A)
-		countTimeUnits += (A+A)
+		seedTime += ((F/K) + A + r)
+		countTimeUnits += ((F/K) + A + r)
 		if (countTimeUnits >= R):
 			break
 
