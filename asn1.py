@@ -31,9 +31,9 @@ def main():
 				break
 		countTimeUnits = 0;
 
-	print("%.2f, %.2f %.2f" %computeAverageTransmission(), " (Confidence, Interval) ")
+	print("%.2f, (%.2f, %.2f)" %computeAverageTransmission()) 
 	#print("The average number of transmissions was: ", computeAverageTransmission())
-	print("%.2f, %.2f %.2f" %computeThroughput(), " (Throughput, Interval) ")
+	print("%.2f, (%.2f, %.2f)" %computeThroughput())
 
 	return
 
