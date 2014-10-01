@@ -11,7 +11,7 @@ R = None # Lenght of simulation in bit time units (derived using A)
 T = 5 # The number of frames being transmitted. each with it's own seed
 Seeds = list()
 transmittedPerSeed = [] #the AVERAGE transmitted for each seed; use to find mean
-timeUnitsPerSeed = [] 
+throughputPerSeed = [] #
 countTimeUnits = 0
 retransmittedFrames = 0
 correctlyRecievedFrames = 0
@@ -31,7 +31,7 @@ def main():
 
 	print("%.2f, %.2f %.2f" %computeAverageTransmission(), " (Confidence, Interval) ")
 	#print("The average number of transmissions was: ", computeAverageTransmission())
-	#print("The throughput was ", computeThroughput())
+	print("%.2f, %.2f %.2f" %computeThroughput(), " (Throughput, Interval) ")
 
 	return
 
@@ -100,7 +100,7 @@ def getFrame(seed):
 	global correctlyRecievedFrames
 	global retransmittedFrames
 	global transmittedPerSeed
-	global timeUnitsPerSeed
+	global throughputPerSeed
 
 	seedTime = 0
 	transmittedFrames = 0
@@ -125,7 +125,7 @@ def getFrame(seed):
 				#print("Bad Frame, Retransmitting.....")
 
 		transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-		timeUnitsPerSeed.append(seedTime)
+		throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
 		return
 
 	while (not gotFrame):
@@ -145,7 +145,7 @@ def getFrame(seed):
 			#print("Bad Frame, Retransmitting.....")
 
 	transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-	timeUnitPerSeed.append(seedTime)
+	timeUnitPerSeed.append((F*correctlyRecievedFrames)/seedTime)
 	return 
 
 
@@ -210,7 +210,7 @@ def computeAverageTransmission():
 		mean = 0
 		for element in transmittedPerSeed:
 			mean = mean + element
-		mean = mean/5
+		mean = mean/T
 		#calculate SD
 		summation = 0
 		for elements in transmittedPerSeed:
@@ -230,24 +230,28 @@ def computeThroughput():
 	global correctlyRecievedFrames
 	global countTimeUnits
 	global transmittedPerSeed
-	global timeUnitPerSeed
+	global throughputPerSeed
 	global T
 
 	if correctlyRecievedFrames == 0:
 		return 0
 
 	else:	
-		#challenge here is calculating throughput for each seed first before any of the 
-		#other calculations for throughput can occur
-		average = ((F*correctlyRecievedFrames)/countTimeUnits)
+		mean = 0
+		for element in throughputPerSeed:
+			mean = mean + element
+		mean = mean/T
 		summation = 0
-		index = 0
-		for element in timeUnitPerSeed:
-			i = ((F*transmittedPerSeed[index])/element)
+		for elements in throughputPerSeed:
+			i = ((element-mean)**2)
+			summation = summation + i
+				
+		stdDev = (summation/(T-1))**0.5
+		step = 2.776 * (stdDev/(T**0.5))
+		lower = mean - step
+		upper = mean + step	
 
-			
-
-		return average, lower, upper
+	return mean, lower, upper	
 
 # Returns number of HSBC check bits for supplied block size
 def getCheckBits(blockSize):
