@@ -109,8 +109,6 @@ def getFrame(seed):
 	else:
 		r = 0
 
-	global timeUnitsPerSeed
-
 	seedTime = 0
 	transmittedFrames = 0
 	random.seed(seed)
@@ -134,6 +132,8 @@ def getFrame(seed):
 				transmittedFrames += 1
 				#print("Bad Frame, Retransmitting.....")
 
+		if correctlyRecievedFrames == 0:
+			correctlyRecievedFrames = 1
 		transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
 		throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
 		return
@@ -155,8 +155,10 @@ def getFrame(seed):
 			transmittedFrames += 1
 			#print("Bad Frame, Retransmitting.....")
 
+	if correctlyRecievedFrames == 0:
+		correctlyRecievedFrames = 1
 	transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-	timeUnitPerSeed.append((F*correctlyRecievedFrames)/seedTime)
+	throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
 	return 
 
 
@@ -169,7 +171,7 @@ def isFrameGood():
 	blockSize = int(F/K)
 
 	#add r to blocksize
-	blocksize = blocksize + getCheckBits(blocksize)
+	blockSize = blockSize + getCheckBits(blockSize)
 	
 	#for each block
 	for i in range(blocks):
