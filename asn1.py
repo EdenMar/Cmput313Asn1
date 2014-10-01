@@ -102,7 +102,6 @@ def getFrame(seed):
 	global transmittedPerSeed
 
 	r = getCheckBits(int(F/K))
-=======
 	global timeUnitsPerSeed
 
 	seedTime = 0
