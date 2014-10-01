@@ -35,6 +35,7 @@ def main():
 	#print("The average number of transmissions was: ", computeAverageTransmission())
 	print("%.2f, (%.2f, %.2f)" %computeThroughput())
 
+
 	return
 
 #handle arguments
@@ -224,7 +225,7 @@ def computeAverageTransmission():
 		mean = 0
 		for element in transmittedPerSeed:
 			mean = mean + element
-		mean = mean/T
+		mean = mean/len(transmittedPerSeed)
 		#calculate SD
 		summation = 0
 		for elements in transmittedPerSeed:
@@ -254,7 +255,7 @@ def computeThroughput():
 		mean = 0
 		for element in throughputPerSeed:
 			mean = mean + element
-		mean = mean/T
+		mean = mean/len(throughputPerSeed)
 		summation = 0
 		for elements in throughputPerSeed:
 			i = ((element-mean)**2)
