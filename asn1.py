@@ -110,7 +110,8 @@ def getFrame(seed):
 		r = 0
 
 	seedTime = 0
-	transmittedFrames = 0
+	totalTransmittedFrames = 0
+	correct = 0
 	random.seed(seed)
 	gotFrame = False
 
@@ -118,47 +119,47 @@ def getFrame(seed):
 		while (not gotFrame):
 			countTimeUnits += ((F) + A)
 			seedTime += (F+A)
-			countTimeUnits += (F+A)
 			if (countTimeUnits >= R):
 				break
 
 			if isFrameGoodKequals0():
 				gotFrame = True
 				correctlyRecievedFrames += 1
-				transmittedFrames += 1
+				correct += 1
+				totalTransmittedFrames += 1
 				#print("============= Got a good frame =============")
 			else:
 				retransmittedFrames += 1
-				transmittedFrames += 1
+				totalTransmittedFrames += 1
 				#print("Bad Frame, Retransmitting.....")
 
-		if correctlyRecievedFrames == 0:
-			correctlyRecievedFrames = 1
-		transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-		throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
+		if correct == 0:
+			correct = 1
+		transmittedPerSeed.append(totalTransmittedFrames/correct)
+		throughputPerSeed.append((F*correct)/seedTime)
 		return
 
 	while (not gotFrame):
 		countTimeUnits += ((F/K) + A + r)
 		seedTime += ((F/K) + A + r)
-		countTimeUnits += ((F/K) + A + r)
 		if (countTimeUnits >= R):
 			break
 
 		if isFrameGood():
 			gotFrame = True
 			correctlyRecievedFrames += 1
-			transmittedFrames += 1
+			correct += 1
+			totalTransmittedFrames += 1
 			#print("============= Got a good frame =============")
 		else:
 			retransmittedFrames += 1
-			transmittedFrames += 1
+			totalTransmittedFrames += 1
 			#print("Bad Frame, Retransmitting.....")
 
-	if correctlyRecievedFrames == 0:
-		correctlyRecievedFrames = 1
-	transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-	throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
+	if correct == 0:
+		correct = 1
+	transmittedPerSeed.append(totalTransmittedFrames/correct)
+	throughputPerSeed.append((F*correct)/seedTime)
 	return 
 
 
