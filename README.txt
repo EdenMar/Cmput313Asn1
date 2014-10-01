@@ -14,6 +14,6 @@ Assumptions:
 
 what needs fixing:
 
-	R may apply to each trial (for a total of 5) sending as many frames as possible
-	Incrementing of Time units may need changing
-	Througput confidence interval function needs to be finished. 
+	[+] R may apply to each trial (for a total of 5) sending as many frames as possible
+	[+] Incrementing of Time units may need changing
+	[ ] Througput confidence interval function needs to be finished. 

@@ -18,16 +18,19 @@ correctlyRecievedFrames = 0
 
 #	Functions
 def main():
+	global countTimeUnits
 	# Handle Arguments
 	handleArgs()
 	printVals()
 
 	# run code T times with different seeds
 	for i in range(T):
-		getFrame(Seeds[i])
-		if countTimeUnits >= R:
-			print("Time Limit Reached")
-			break
+		while(countTimeUnits < R):
+			getFrame(Seeds[i])
+			if countTimeUnits >= R:
+				print("Time Limit Reached")
+				break
+		countTimeUnits = 0;
 
 	print("%.2f, %.2f %.2f" %computeAverageTransmission(), " (Confidence, Interval) ")
 	#print("The average number of transmissions was: ", computeAverageTransmission())
