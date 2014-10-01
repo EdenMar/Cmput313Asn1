@@ -35,6 +35,7 @@ def main():
 	#print("The average number of transmissions was: ", computeAverageTransmission())
 	print("%.2f, (%.2f, %.2f)" %computeThroughput())
 
+
 	return
 
 #handle arguments
@@ -110,7 +111,8 @@ def getFrame(seed):
 		r = 0
 
 	seedTime = 0
-	transmittedFrames = 0
+	totalTransmittedFrames = 0
+	correct = 0
 	random.seed(seed)
 	gotFrame = False
 
@@ -124,17 +126,18 @@ def getFrame(seed):
 			if isFrameGoodKequals0():
 				gotFrame = True
 				correctlyRecievedFrames += 1
-				transmittedFrames += 1
+				correct += 1
+				totalTransmittedFrames += 1
 				#print("============= Got a good frame =============")
 			else:
 				retransmittedFrames += 1
-				transmittedFrames += 1
+				totalTransmittedFrames += 1
 				#print("Bad Frame, Retransmitting.....")
 
-		if correctlyRecievedFrames == 0:
-			correctlyRecievedFrames = 1
-		transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-		throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
+		if correct == 0:
+			correct = 1
+		transmittedPerSeed.append(totalTransmittedFrames/correct)
+		throughputPerSeed.append((F*correct)/seedTime)
 		return
 
 	while (not gotFrame):
@@ -146,17 +149,18 @@ def getFrame(seed):
 		if isFrameGood():
 			gotFrame = True
 			correctlyRecievedFrames += 1
-			transmittedFrames += 1
+			correct += 1
+			totalTransmittedFrames += 1
 			#print("============= Got a good frame =============")
 		else:
 			retransmittedFrames += 1
-			transmittedFrames += 1
+			totalTransmittedFrames += 1
 			#print("Bad Frame, Retransmitting.....")
 
-	if correctlyRecievedFrames == 0:
-		correctlyRecievedFrames = 1
-	transmittedPerSeed.append(transmittedFrames/correctlyRecievedFrames)
-	throughputPerSeed.append((F*correctlyRecievedFrames)/seedTime)
+	if correct == 0:
+		correct = 1
+	transmittedPerSeed.append(totalTransmittedFrames/correct)
+	throughputPerSeed.append((F*correct)/seedTime)
 	return 
 
 
@@ -221,7 +225,7 @@ def computeAverageTransmission():
 		mean = 0
 		for element in transmittedPerSeed:
 			mean = mean + element
-		mean = mean/T
+		mean = mean/len(transmittedPerSeed)
 		#calculate SD
 		summation = 0
 		for elements in transmittedPerSeed:
@@ -233,7 +237,8 @@ def computeAverageTransmission():
 		lower = mean - step
 		upper = mean + step
 	else:
-		average = 0	
+		return 0, 0, 0	
+
 	return mean, lower, upper
 
 def computeThroughput():
@@ -245,13 +250,13 @@ def computeThroughput():
 	global T
 
 	if correctlyRecievedFrames == 0:
-		return 0
+		return 0, 0, 0
 
 	else:	
 		mean = 0
 		for element in throughputPerSeed:
 			mean = mean + element
-		mean = mean/T
+		mean = mean/len(throughputPerSeed)
 		summation = 0
 		for elements in throughputPerSeed:
 			i = ((element-mean)**2)
