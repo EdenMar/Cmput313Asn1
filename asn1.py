@@ -237,7 +237,8 @@ def computeAverageTransmission():
 		lower = mean - step
 		upper = mean + step
 	else:
-		average = 0	
+		return 0, 0, 0	
+
 	return mean, lower, upper
 
 def computeThroughput():
@@ -249,7 +250,7 @@ def computeThroughput():
 	global T
 
 	if correctlyRecievedFrames == 0:
-		return 0
+		return 0, 0, 0
 
 	else:	
 		mean = 0
