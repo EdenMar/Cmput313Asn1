@@ -17,3 +17,11 @@ what needs fixing:
 	[+] R may apply to each trial (for a total of 5) sending as many frames as possible
 	[+] Incrementing of Time units may need changing
 	[ ] Througput confidence interval function needs to be finished. 
+
+
+	Report:
+		graph with values of K from 0 to 5, and different values of e
+
+		as blocksize increases, average transmissions should increase
+		as error increases, average transmissions should increase
+		as transmission attempts increase, throughput decreases

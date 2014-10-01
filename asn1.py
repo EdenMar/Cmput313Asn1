@@ -118,7 +118,6 @@ def getFrame(seed):
 		while (not gotFrame):
 			countTimeUnits += ((F) + A)
 			seedTime += (F+A)
-			countTimeUnits += (F+A)
 			if (countTimeUnits >= R):
 				break
 
@@ -141,7 +140,6 @@ def getFrame(seed):
 	while (not gotFrame):
 		countTimeUnits += ((F/K) + A + r)
 		seedTime += ((F/K) + A + r)
-		countTimeUnits += ((F/K) + A + r)
 		if (countTimeUnits >= R):
 			break
 
