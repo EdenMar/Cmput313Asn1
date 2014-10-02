@@ -32,23 +32,28 @@ def main():
 	for i in range(T):
 		#each seed runs for R time; total values for each seed
 		#simulation must be totaled here
-		total = 0
-		correct = 0
-		seedTime = 0
+		totali = 0
+		correcti = 0
+		seedTimei = 0
 		while(countTimeUnits < R):
 			total, correct, seedTime = getFrame(Seeds[i])
-			total += total
-			correct += correct
-			seedTime += seedTime
+			totali += total
+			correcti += correct
+			seedTimei += seedTime
 			if countTimeUnits >= R:
 				break
 		countTimeUnits = 0;
-		transmittedPerSeed.append(total/correct)
-		throughputPerSeed.append((F*correct)/seedTime)
+		if correcti == 0:
+			transmittedPerSeed.append(0)
+			throughputPerSeed.append(0)
+		else:
+			transmittedPerSeed.append(totali/correcti)
+			throughputPerSeed.append((F*correcti)/seedTimei)
 
 	print("%.2f, (%.2f, %.2f)" %computeAverageTransmission()) 
-	#print("The average number of transmissions was: ", computeAverageTransmission())
+	#print(transmittedPerSeed)
 	print("%.2f, (%.2f, %.2f)" %computeThroughput2())
+	#print(throughputPerSeed)
 
 
 
@@ -137,8 +142,8 @@ def getFrame(seed):
 			countTimeUnits += ((F) + A)
 			seedTime += (F+A)
 			if (countTimeUnits >= R):
-				if correct == 0:
-					correct = 1
+				#if correct == 0:
+				#	correct = 1
 				#transmittedPerSeed.append(totalTransmittedFrames/correct)
 				#throughputPerSeed.append((F*correct)/seedTime)
 				break
@@ -161,8 +166,8 @@ def getFrame(seed):
 		countTimeUnits += ((F/K) + A + r)
 		seedTime += ((F/K) + A + r)
 		if (countTimeUnits >= R):
-			if correct == 0:
-				correct = 1
+			#if correct == 0:
+			#	correct = 1
 			#transmittedPerSeed.append(totalTransmittedFrames/correct)
 			#throughputPerSeed.append((F*correct)/seedTime)	
 			break
