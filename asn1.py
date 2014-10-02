@@ -49,8 +49,7 @@ def main():
 	print("%.2f, (%.2f, %.2f)" %computeAverageTransmission()) 
 	#print("The average number of transmissions was: ", computeAverageTransmission())
 	print("%.2f, (%.2f, %.2f)" %computeThroughput2())
-	print(throughputPerSeed)
-	print(transmittedPerSeed)
+
 
 
 	return
