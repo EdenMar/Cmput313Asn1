@@ -37,7 +37,8 @@ def main():
 
 	print("%.2f, (%.2f, %.2f)" %computeAverageTransmission()) 
 	#print("The average number of transmissions was: ", computeAverageTransmission())
-	print("%.2f, (%.2f, %.2f)" %computeThroughput())
+	#print("%.2f, (%.2f, %.2f)" %computeThroughput())
+	print(throughputPerSeed)
 
 
 	return
@@ -125,6 +126,10 @@ def getFrame(seed):
 			countTimeUnits += ((F) + A)
 			seedTime += (F+A)
 			if (countTimeUnits >= R):
+				if correct == 0:
+					correct = 1
+				transmittedPerSeed.append(totalTransmittedFrames/correct)
+				throughputPerSeed.append((F*correct)/seedTime)
 				break
 
 			if isFrameGoodKequals0():
@@ -138,16 +143,17 @@ def getFrame(seed):
 				totalTransmittedFrames += 1
 				#print("Bad Frame, Retransmitting.....")
 
-		if correct == 0:
-			correct = 1
-		transmittedPerSeed.append(totalTransmittedFrames/correct)
-		throughputPerSeed.append((F*correct)/seedTime)
+
 		return
 
 	while (not gotFrame):
 		countTimeUnits += ((F/K) + A + r)
 		seedTime += ((F/K) + A + r)
 		if (countTimeUnits >= R):
+			if correct == 0:
+				correct = 1
+			transmittedPerSeed.append(totalTransmittedFrames/correct)
+			throughputPerSeed.append((F*correct)/seedTime)	
 			break
 
 		if isFrameGood():
@@ -161,10 +167,7 @@ def getFrame(seed):
 			totalTransmittedFrames += 1
 			#print("Bad Frame, Retransmitting.....")
 
-	if correct == 0:
-		correct = 1
-	transmittedPerSeed.append(totalTransmittedFrames/correct)
-	throughputPerSeed.append((F*correct)/seedTime)
+
 	return 
 
 
