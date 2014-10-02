@@ -23,22 +23,34 @@ correctlyRecievedFrames = 0
 #	Functions
 def main():
 	global countTimeUnits
+	global F
 	# Handle Arguments
 	handleArgs()
 	printVals()
 
 	# run code T times with different seeds
 	for i in range(T):
+		#each seed runs for R time; total values for each seed
+		#simulation must be totaled here
+		total = 0
+		correct = 0
+		seedTime = 0
 		while(countTimeUnits < R):
-			getFrame(Seeds[i])
+			total, correct, seedTime = getFrame(Seeds[i])
+			total += total
+			correct += correct
+			seedTime += seedTime
 			if countTimeUnits >= R:
 				break
 		countTimeUnits = 0;
+		transmittedPerSeed.append(total/correct)
+		throughputPerSeed.append((F*correct)/seedTime)
 
 	print("%.2f, (%.2f, %.2f)" %computeAverageTransmission()) 
 	#print("The average number of transmissions was: ", computeAverageTransmission())
-	#print("%.2f, (%.2f, %.2f)" %computeThroughput())
+	print("%.2f, (%.2f, %.2f)" %computeThroughput2())
 	print(throughputPerSeed)
+	print(transmittedPerSeed)
 
 
 	return
@@ -128,8 +140,8 @@ def getFrame(seed):
 			if (countTimeUnits >= R):
 				if correct == 0:
 					correct = 1
-				transmittedPerSeed.append(totalTransmittedFrames/correct)
-				throughputPerSeed.append((F*correct)/seedTime)
+				#transmittedPerSeed.append(totalTransmittedFrames/correct)
+				#throughputPerSeed.append((F*correct)/seedTime)
 				break
 
 			if isFrameGoodKequals0():
@@ -144,7 +156,7 @@ def getFrame(seed):
 				#print("Bad Frame, Retransmitting.....")
 
 
-		return
+		return totalTransmittedFrames, correct, seedTime
 
 	while (not gotFrame):
 		countTimeUnits += ((F/K) + A + r)
@@ -152,8 +164,8 @@ def getFrame(seed):
 		if (countTimeUnits >= R):
 			if correct == 0:
 				correct = 1
-			transmittedPerSeed.append(totalTransmittedFrames/correct)
-			throughputPerSeed.append((F*correct)/seedTime)	
+			#transmittedPerSeed.append(totalTransmittedFrames/correct)
+			#throughputPerSeed.append((F*correct)/seedTime)	
 			break
 
 		if isFrameGood():
@@ -168,7 +180,7 @@ def getFrame(seed):
 			#print("Bad Frame, Retransmitting.....")
 
 
-	return 
+	return totalTransmittedFrames, correct, seedTime
 
 
 
