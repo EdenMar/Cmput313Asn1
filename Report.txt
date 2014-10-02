@@ -1,0 +1,5 @@
+The simulation performed has been used to determine the impact that error-correction encoding has on the throughput of a communication channel. In our simulations, the value of K range from 0 to 5, for each value of e ranging from 0.001 to 0.009; all other variables remain constant. 
+
+	At a value of K=0, no error-correction encoding is used. As K increases, a larger number of check bits are required to transmit each frame, however, more bad bits can be tolerated before having to retransmit the frame. 
+
+	In our testing we found the optimal value of K to be to be K = ?? at a value of e = ??. As the Value of e increases, the optimal value for K does something probably, but we dont know what that is yet.  

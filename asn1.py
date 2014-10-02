@@ -2,6 +2,10 @@
 import sys
 import random
 
+import numpy 
+import scipy
+import scipy.stats
+
 # Supplied Vals
 A = 500 #feedback time is assumed at 500 bit time units
 K = None # number of blocks, chosen such that F is a muliple of K
@@ -241,7 +245,8 @@ def computeAverageTransmission():
 
 	return mean, lower, upper
 
-def computeThroughput():
+
+def computeThroughput2():
 	global F
 	global correctlyRecievedFrames
 	global countTimeUnits
