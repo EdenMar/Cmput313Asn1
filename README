@@ -1,0 +1,5 @@
+The attached is Chase McCarty and Eden Mar's Asn1 submission for 
+the Cmput313 F2014 semester. The program asn1.py will accept 
+the variables A, K, F, e, R, T t1, t2, ...t5 in order, and
+generate an output of average transmission (cofidence interval)
+and throughput (confidence interval).
